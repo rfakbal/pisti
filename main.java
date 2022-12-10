@@ -1,9 +1,9 @@
 import java.util.Random;
-public class deneme{
+public class main{
     public static Card[] deck = createDeck();
     public static Card[] playerHand = new Card[4];
     public static Card[] computerHand = new Card[4];
-    public static Card[] board = new Card[39];
+    public static Card[] board = new Card[52];
     public static Card[] playerCount = new Card[52];
     public static Card[] computerCount = new Card[52];
     public static Card[] boardFill(){
@@ -101,7 +101,7 @@ public class deneme{
     return board;
     }
     public static Card[] createDeck(){
-        Card[] deck = new Card[39];
+        Card[] deck = new Card[52];
         Card card1  = new Card(1, "maca" ,"A");
         Card card2  = new Card(2, "maca" ,"2");
         Card card3  = new Card(3, "maca" ,"3");
@@ -141,6 +141,19 @@ public class deneme{
         Card card37 = new Card(11,"karo","J");
         Card card38 = new Card(12,"karo","Q");
         Card card39 = new Card(13,"karo","K");
+        Card card40 = new Card(1, "sinek" ,"A");
+        Card card41 = new Card(2, "sinek" ,"2");
+        Card card42 = new Card(3, "sinek" ,"3");
+        Card card43 = new Card(4, "sinek" ,"4");
+        Card card44 = new Card(5, "sinek" ,"5");
+        Card card45 = new Card(6, "sinek" ,"6");
+        Card card46 = new Card(7, "sinek" ,"7");
+        Card card47 = new Card(8, "sinek" ,"8");
+        Card card48 = new Card(9, "sinek" ,"9");
+        Card card49 = new Card(10,"sinek" ,"10");
+        Card card50 = new Card(11,"sinek" ,"J");
+        Card card51 = new Card(12,"sinek" ,"Q");
+        Card card52 = new Card(13,"sinek" ,"K");
         deck[0]     = card1;
         deck[1]     = card2;
         deck[2]     = card3;
@@ -180,7 +193,30 @@ public class deneme{
         deck[36]    = card37;
         deck[37]    = card38;
         deck[38]    = card39;
+        deck[39]    = card40;
+        deck[40]    = card41;
+        deck[41]    = card42;
+        deck[42]    = card43;
+        deck[43]    = card44;
+        deck[44]    = card45;
+        deck[45]    = card46;
+        deck[46]    = card47;
+        deck[47]    = card48;
+        deck[48]    = card49;
+        deck[49]    = card50;
+        deck[50]    = card51;
+        deck[51]    = card52;
         return deck;
+    }
+    public static int pointCount(Card[] cards){
+        int point = 0;
+        for(int i = 0;i<cards.length;i++){
+            if(cards[i].getRank().equals("J")){point++;}
+            if(cards[i].getRank().equals("A")){point++;}
+            if(cards[i].getValue()==10&&cards[i].getSuit()=="karo"){point+=3;}
+            if(cards[i].getValue()==2&&cards[i].getSuit()=="sinek"){point+=2;}
+        } 
+        return point;
     }
     public static void deckShuffle(){
         Random rd = new Random();
@@ -197,7 +233,9 @@ public class deneme{
         deckShuffle();
         boardFill();
         for(int i = 0;i<board.length;i++){
-            board[i].cardPrint();
+            deck[i].cardPrint();
         }
+        int x = pointCount(deck);
+        System.out.println(x);
     }
 }
