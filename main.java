@@ -208,6 +208,16 @@ public class main{
         deck[51]    = card52;
         return deck;
     }
+    public static void cutDeck(){
+        int half_length = deck.length/2;
+        for(int i = 0;i<26;i++){
+            Card a = deck[i];
+            Card b = deck[half_length];
+            deck[i] = b;
+            deck[half_length] = a;
+            half_length++;
+        }
+    }    
     public static int pointCount(Card[] cards){
         int point = 0;
         for(int i = 0;i<cards.length;i++){
@@ -233,6 +243,15 @@ public class main{
         deckShuffle();
         boardFill();
         for(int i = 0;i<board.length;i++){
+            System.out.print((i+1)+" -) ");
+            deck[i].cardPrint();
+        }
+        for(int i = 0;i<5;i++){
+            System.out.println();
+        }
+        cutDeck();
+        for(int i = 0;i<board.length;i++){
+            System.out.print((i+1)+" -) ");
             deck[i].cardPrint();
         }
         int x = pointCount(deck);
