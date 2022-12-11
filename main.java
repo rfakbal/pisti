@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 public class main{
     public static Card[] deck = createDeck();
     public static Card[] playerHand = new Card[4];
@@ -208,7 +209,7 @@ public class main{
         deck[51]    = card52;
         return deck;
     }
-    public static void cutDeck(){
+    public static void cutDeck1(){
         int half_length = deck.length/2;
         for(int i = 0;i<26;i++){
             Card a = deck[i];
@@ -217,7 +218,40 @@ public class main{
             deck[half_length] = a;
             half_length++;
         }
-    }    
+    }
+    public static void cutDeck2(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter the number of the card that you want to cut from: ");
+        int selection = sc.nextInt();
+        selection -= 1;
+        Card[] deckFirstPart = new Card[selection];
+        Card[] deckSecondPart = new Card[52-selection];
+        for(int i = 0;i<selection;i++){
+            Card a = deck[i];
+            deckFirstPart[i] = a;
+        }
+        for(int i = 0;i<52-selection;i++){
+            Card a = deck[selection+i];
+            deckSecondPart[i] = a;
+        }
+        for(int i = 0;i<deckFirstPart.length;i++){
+            System.out.print((i+1)+" -) ");
+            deckFirstPart[i].cardPrint();
+        }
+        System.out.println();
+        for(int i = 0;i<deckSecondPart.length;i++){
+            System.out.print((i+1)+" -) ");
+            deckSecondPart[i].cardPrint();
+        }
+        System.out.println();
+        for(int i = 0;i<deckSecondPart.length;i++){
+            deck[i] = deckSecondPart[i];
+        }
+        for(int i = 0;i<deckFirstPart.length;i++){
+            deck[deckSecondPart.length+i] = deckFirstPart[i];
+        }
+    }
+
     public static int pointCount(Card[] cards){
         int point = 0;
         for(int i = 0;i<cards.length;i++){
@@ -249,7 +283,7 @@ public class main{
         for(int i = 0;i<5;i++){
             System.out.println();
         }
-        cutDeck();
+        cutDeck2();
         for(int i = 0;i<board.length;i++){
             System.out.print((i+1)+" -) ");
             deck[i].cardPrint();
