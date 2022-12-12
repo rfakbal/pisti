@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 public class main{
     public static Card[] deck = createDeck();
     public static Card[] playerHand = new Card[4];
@@ -209,6 +210,26 @@ public class main{
         deck[51]    = card52;
         return deck;
     }
+    public static int getInput(int limit){
+        Scanner sc = new Scanner(System.in);
+        boolean loop = true;
+        int input = 0;
+        while(loop){
+            try{
+                input = sc.nextInt();
+                if(input>=0&&input<limit){
+                    loop = false;
+                }
+                System.out.println("Invalid input try again ");
+            } 
+            catch(InputMismatchException ex){
+                System.out.println("Invalid input try again ");
+                sc.nextLine();
+            }
+        }
+        return input;
+
+    }
     public static void cutDeck1(){
         int half_length = deck.length/2;
         for(int i = 0;i<26;i++){
@@ -220,9 +241,8 @@ public class main{
         }
     }
     public static void cutDeck2(){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Please enter the number of the card that you want to cut from: ");
-        int selection = sc.nextInt();
+        int selection = getInput(52);
         selection -= 1;
         Card[] deckFirstPart = new Card[selection];
         Card[] deckSecondPart = new Card[52-selection];
@@ -251,7 +271,6 @@ public class main{
             deck[deckSecondPart.length+i] = deckFirstPart[i];
         }
     }
-
     public static int pointCount(Card[] cards){
         int point = 0;
         for(int i = 0;i<cards.length;i++){
