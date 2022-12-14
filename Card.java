@@ -1,22 +1,9 @@
 public class Card{
-    private int value;
     private String suit;
     private String rank;
-    public Card(int x/*value for test*/,String s/*suit*/,String r /*rank*/){
-        value = x;
+    public Card(String s/*suit*/,String r /*rank*/){
         suit = s;
         rank = r;
-    }
-    public boolean cardCheck(Card b){
-        if(getValue()==b.getValue()){
-            return true;
-        }
-        return false;
-    }
-    //public String[] suits = {"♣", "♦", "♥", "♠"};
-    //public String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10","J", "Q", "K"};
-    public int getValue(){
-        return value;
     }
     public String getSuit(){
         return suit;
@@ -25,11 +12,20 @@ public class Card{
         return rank;
     }
     public void cardPrint(){
-        if(getValue()==0&&getSuit()==""&&getRank()==""){
+        if(getSuit()==""&&getRank()==""){
             System.out.print("null");
         }
-        else{System.out.print(getValue()+" "+getSuit()+" "+getRank()+" ");}
+        else{System.out.print(getSuit()+" "+getRank()+" ");}
         System.out.println();
     }
+    public boolean cardCheck(Card a){
+        if(getRank()=="J"){
+            return true;
+        }        
+        else if (getRank()==a.getRank()){
+            return true;
+        }
 
+        return false;
+    }
 }
