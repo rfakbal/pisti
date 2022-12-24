@@ -8,8 +8,22 @@ public class main{
     public static Card[] board = new Card[52];
     public static Card[] playerCount = new Card[52];
     public static Card[] computerCount = new Card[52];
+    public static int playerget;
+    public static int playerScore = 0;
+    public static int computerScore = 0;
+    public static int dealReminder = 0;
+    public static int boardReminder = 3;
+    //public static Card top = null;
+    public static boolean start = true;
     public static String[] ranks = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     public static String[] suits = {"maca","kupa","karo","sinek"};
+    public static void cardPrint(Card a){
+    if(a==null){
+        System.out.println("empty");
+    }
+    else{System.out.print(a.getSuit()+" "+a.getRank()+" ");}
+     System.out.println();
+    }
     public static void createDeck(){
     int index = 0;
     for(int i=0;i<suits.length;i++){
@@ -27,10 +41,12 @@ public class main{
         while(loop){
             try{
                 input = sc.nextInt();
-                if(input>=0&&input<limit){
+                if(input>0&&input<limit){
                     loop = false;
                 }
-                System.out.println("Invalid input try again ");
+                else{
+                    System.out.println("Invalid input try again ");
+                }
             } 
             catch(InputMismatchException ex){
                 System.out.println("Invalid input try again ");
@@ -40,17 +56,7 @@ public class main{
         return input;
 
     }
-    public static void cutDeck1(){
-        int half_length = deck.length/2;
-        for(int i = 0;i<26;i++){
-            Card a = deck[i];
-            Card b = deck[half_length];
-            deck[i] = b;
-            deck[half_length] = a;
-            half_length++;
-        }
-    }
-    public static void cutDeck2(){
+    public static void cutDeck(){
         System.out.println("Please enter the number of the card that you want to cut from: ");
         int selection = getInput(52);
         selection -= 1;
@@ -66,12 +72,12 @@ public class main{
         }
         for(int i = 0;i<deckFirstPart.length;i++){
             System.out.print((i+1)+" -) ");
-            deckFirstPart[i].cardPrint();
+            cardPrint(deckFirstPart[i]);
         }
         System.out.println();
         for(int i = 0;i<deckSecondPart.length;i++){
             System.out.print((i+1)+" -) ");
-            deckSecondPart[i].cardPrint();
+            cardPrint(deckSecondPart[i]);
         }
         System.out.println();
         for(int i = 0;i<deckSecondPart.length;i++){
@@ -81,13 +87,152 @@ public class main{
             deck[deckSecondPart.length+i] = deckFirstPart[i];
         }
     }
+    public static void dealCards(){
+        if(start==true){
+            for(int i = 0;i<4;i++,dealReminder++){
+                board[i] = deck[i];
+            }
+        }
+        for(int i = 0;i<4;i++,dealReminder++){
+            playerHand[i] = deck[dealReminder];
+        }
+        for(int i = 0;i<4;i++,dealReminder++){
+            computerHand[i] = deck[dealReminder];
+        }
+    }
+    public static void printHand(Card[] arr){
+        System.out.println("Your Cards: ");
+        for(int i = 0;i<4;i++){
+            System.out.print((i+1)+" -) ");
+            cardPrint(arr[i]);
+        }
+    }
+    public static void drawBoard(){
+        if(start==true){
+            System.out.println("Board Cards: ");
+            for(int i = 0;i<3;i++){
+                cardPrint(board[i]);
+            }
+            //top = board[3];
+            System.out.print("Card on Top: ");
+            cardPrint(board[boardReminder]);
+            System.out.println();
+            start = false;
+        }
+        else{
+            System.out.print("Card on Top: ");
+            cardPrint(board[boardReminder]); 
+            System.out.println();
+        }
+    }
+    public static void emptyBoard(Card[] arr){
+        for(int i = 0;i<boardReminder+1;i++){
+            for(int j = 0;j<52;j++){
+                if(arr[j]!=null){
+                    continue;
+                }
+                else{
+                    arr[j]=board[i];
+                    board[i]=null;
+                }
+            }
+        }
+        boardReminder=0;
+    }
+    public static void playerPlay(){
+        Scanner sc = new Scanner(System.in);
+        printHand(playerHand);
+        boolean end = true;
+        int input = 0;
+        while(end){
+            input = getInput(5);
+            input--;
+            if(playerHand[input]!=null){
+                end = false;
+            }
+        }
+        if(board[boardReminder]==null){
+            boardReminder++;
+            board[boardReminder]=playerHand[input];
+            playerHand[input]=null;
+        }
+        else if(boardReminder==1 && playerHand[input].pistiCheck(board[boardReminder])){
+            System.out.println("PISTI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            boardReminder++;
+            board[boardReminder] = playerHand[input];
+            emptyBoard(playerCount);
+            playerHand[input]=null;
+            playerScore += 10;
+            playerget = 1;
+        }
+        else if(playerHand[input].cardCheck(board[boardReminder])){
+            System.out.println("You Played"+playerHand[input].getSuit()+" "+playerHand[input].getRank()+"Got The Cards ++++++++++++++++++++++++++++++++++++++++++++++");
+            boardReminder++;
+            board[boardReminder] = playerHand[input];
+            emptyBoard(playerCount);
+            playerHand[input]=null;
+            playerget = 1;
+        }
+        else{
+            boardReminder++;
+            board[boardReminder] = playerHand[input];
+            playerHand[input]=null;
+            System.out.println("--------------------------------------------");
+        }
+    }
+    public static void computerPlay(){
+        Random rd = new Random(System.currentTimeMillis());
+        boolean playRandom = true;
+        boolean end = true;
+        int selection = 0;
+        for(int i = 0;i<4;i++){
+            if(computerHand[i]!=null){
+               if(boardReminder==1 && computerHand[i].pistiCheck(board[boardReminder])){
+                System.out.println("Computer played = "+ computerHand[i].getSuit()+" "+computerHand[i].getRank() +" and got the pisti!!!!");
+                boardReminder++;
+                board[boardReminder] = computerHand[i];
+                emptyBoard(computerCount);
+                computerHand[i] = null;
+                computerScore += 10;
+                playerget = 0;
+                playRandom = false;
+                }
+            else if(computerHand[i].cardCheck(board[boardReminder])){
+                System.out.println("Computer played = "+ computerHand[i].getSuit()+" "+computerHand[i].getRank() +" and got all the cards on the board.");
+                boardReminder++;
+                board[boardReminder] = computerHand[i];
+                emptyBoard(computerCount);
+                computerHand[i] = null;
+                playerget = 0;
+                playRandom = false;
+                } 
+            }   
+        }
+        if(playRandom){
+            boolean cardNull = true;
+            while(cardNull){
+                selection = rd.nextInt(4);
+                System.out.println(selection);
+                if(computerHand[selection]!=null){
+                boardReminder++;
+                board[boardReminder] = computerHand[selection];
+                System.out.print("Computer played = "+ computerHand[selection].getSuit()+" "+computerHand[selection].getRank() +" .");
+                System.out.println();
+                cardNull = false;
+                computerHand[selection]=null;
+                }
+            }
+        }
+    }
     public static int pointCount(Card[] cards){
         int point = 0;
         for(int i = 0;i<cards.length;i++){
-            if(cards[i].getRank().equals("J")){point++;}
-            if(cards[i].getRank().equals("A")){point++;}
-            if(cards[i].getRank()=="K"&&cards[i].getSuit()=="karo"){point+=3;}
-            if(cards[i].getRank()=="2"&&cards[i].getSuit()=="sinek"){point+=2;}
+            if(cards[i]==null){continue;}
+            else if(cards[i].getRank().equals("J")){point++;}
+            else if(cards[i].getRank().equals("A")){point++;}
+            else if(cards[i].getRank()=="K"&&cards[i].getSuit()=="karo"){point+=3;}
+            else if(cards[i].getRank()=="2"&&cards[i].getSuit()=="sinek"){point+=2;}
+            else{point++;}
         } 
         return point;
     }
@@ -106,17 +251,62 @@ public class main{
         deckShuffle();
         for(int i = 0;i<board.length;i++){
             System.out.print((i+1)+" -) ");
-            deck[i].cardPrint();
+            cardPrint(deck[i]);
         }
         for(int i = 0;i<5;i++){
             System.out.println();
         }
-        cutDeck2();
+        cutDeck();
         for(int i = 0;i<board.length;i++){
             System.out.print((i+1)+" -) ");
-            deck[i].cardPrint();
+            cardPrint(deck[i]);
         }
         int x = pointCount(deck);
         System.out.println(x);
+        System.out.println();
+        System.out.println();
+        for(int i = 0;i<6;i++){
+            dealCards();
+            for(int j = 0;j<4;j++){
+                drawBoard();
+                playerPlay();
+                computerPlay();
+            }
+        }
+        if(board[boardReminder]!=null){
+            if(playerget==1){
+                emptyBoard(playerCount);
+            }
+            else{
+                emptyBoard(computerCount);
+            }
+        }
+        System.out.println("END");
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        for(int i = 0;i<playerCount.length;i++){
+            if(playerCount[i]!=null){
+                cardPrint(playerCount[i]);
+            }
+        }
+        int cardScorePlayer = pointCount(playerCount);
+        playerScore += cardScorePlayer;
+        System.out.println("Your score: "+playerScore);
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        int cardScoreComputer = pointCount(computerCount);
+        computerScore += cardScoreComputer;
+        for(int i = 0;i<computerCount.length;i++){
+            if(computerCount[i]!=null){
+                cardPrint(computerCount[i]);
+            }
+        }
+        System.out.println("Computer's score: "+computerScore);
     }
 }

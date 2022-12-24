@@ -11,15 +11,17 @@ public class Card{
     public String getRank(){
         return rank;
     }
-    public void cardPrint(){
-        if(getSuit()==""&&getRank()==""){
-            System.out.print("null");
+    public boolean pistiCheck(Card a){
+        if(getRank()==a.getRank()){
+            return true;
         }
-        else{System.out.print(getSuit()+" "+getRank()+" ");}
-        System.out.println();
+        return false;
     }
     public boolean cardCheck(Card a){
-        if(getRank()=="J"){
+        if(a==null){
+            return false;
+        }
+        else if(getRank()=="J"){
             return true;
         }        
         else if (getRank()==a.getRank()){
