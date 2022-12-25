@@ -13,13 +13,12 @@ public class main{
     public static int computerScore = 0;
     public static int dealReminder = 0;
     public static int boardReminder = 3;
-    //public static Card top = null;
     public static boolean start = true;
     public static String[] ranks = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     public static String[] suits = {"maca","kupa","karo","sinek"};
     public static void cardPrint(Card a){
     if(a==null){
-        System.out.println("empty");
+        System.out.println("There is No Card ");
     }
     else{System.out.print(a.getSuit()+" "+a.getRank()+" ");}
      System.out.println();
@@ -120,9 +119,17 @@ public class main{
             start = false;
         }
         else{
-            System.out.print("Card on Top: ");
-            cardPrint(board[boardReminder]); 
+            if(boardReminder==1){
+                System.out.println("The only Card on Top: ");
+                cardPrint(board[boardReminder]);
+                System.out.println();
+            }
+            else{
+                System.out.print("Card on Top: ");
+            cardPrint(board[boardReminder]);
             System.out.println();
+            }
+            
         }
     }
     public static void emptyBoard(Card[] arr){
@@ -166,7 +173,7 @@ public class main{
             playerget = 1;
         }
         else if(playerHand[input].cardCheck(board[boardReminder])){
-            System.out.println("You Played"+playerHand[input].getSuit()+" "+playerHand[input].getRank()+"Got The Cards ++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.println("You Played"+" "+playerHand[input].getSuit()+" "+playerHand[input].getRank()+" And "+"Got All The Cards ++++++++++++++++++++++++++++++++++++++++++++++");
             boardReminder++;
             board[boardReminder] = playerHand[input];
             emptyBoard(playerCount);
@@ -176,8 +183,8 @@ public class main{
         else{
             boardReminder++;
             board[boardReminder] = playerHand[input];
+            System.out.println("You Played"+" "+playerHand[input].getSuit()+" "+playerHand[input].getRank()+"    --------------------------------------------");
             playerHand[input]=null;
-            System.out.println("--------------------------------------------");
         }
     }
     public static void computerPlay(){
@@ -212,7 +219,6 @@ public class main{
             boolean cardNull = true;
             while(cardNull){
                 selection = rd.nextInt(4);
-                System.out.println(selection);
                 if(computerHand[selection]!=null){
                 boardReminder++;
                 board[boardReminder] = computerHand[selection];
@@ -295,7 +301,7 @@ public class main{
         int cardScorePlayer = pointCount(playerCount);
         playerScore += cardScorePlayer;
         System.out.println("Your score: "+playerScore);
-        System.out.println();
+        System.out.println(); 
         System.out.println();
         System.out.println();
         System.out.println();
