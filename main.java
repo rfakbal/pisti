@@ -2,20 +2,21 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 public class main{
-    public static Card[] deck = new Card[52];
-    public static Card[] playerHand = new Card[4];
-    public static Card[] computerHand = new Card[4];
-    public static Card[] board = new Card[52];
-    public static Card[] playerCount = new Card[52];
-    public static Card[] computerCount = new Card[52];
-    public static int playerget;
-    public static int playerScore = 0;
-    public static int computerScore = 0;
-    public static int dealReminder = 0;
-    public static int boardReminder = 3;
-    public static boolean start = true;
-    public static String[] ranks = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
-    public static String[] suits = {"maca","kupa","karo","sinek"};
+    public static Card[]    deck                = new Card[52];
+    public static Card[]    playerHand          = new Card[4];
+    public static Card[]    computerHand        = new Card[4];
+    public static Card[]    board               = new Card[52];
+    public static Card[]    playerCount         = new Card[52];
+    public static Card[]    computerCount       = new Card[52];
+    public static boolean   developermod;
+    public static int       playerget;
+    public static int       playerScore         = 0;
+    public static int       computerScore       = 0;
+    public static int       dealReminder        = 0;
+    public static int       boardReminder       = 3;
+    public static boolean   start               = true;
+    public static String[]  ranks               = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+    public static String[]  suits               = {"maca","kupa","karo","sinek"};
     public static void cardPrint(Card a){
     if(a==null){
         System.out.println("There is No Card ");
@@ -24,18 +25,25 @@ public class main{
      System.out.println();
     }
     public static void createDeck(){
-    int index = 0;
-    for(int i=0;i<suits.length;i++){
-        for(int j = 0;j<ranks.length;j++){
-            Card card = new Card(suits[i],ranks[j]);
-            deck[index] = card;
-            index++;
+        int index = 0; // this integer helps me to track deck's new card's index.
+        for(int i=0;i<suits.length;i++){ 
+            for(int j = 0;j<ranks.length;j++){ //
+                Card card = new Card(suits[i],ranks[j]);
+                deck[index] = card;
+                index++;
+                }
             }
-        }
+            if(developermod){
+                for(int i = 0;i<52;i++){
+                    System.out.print(i+"-) ");
+                    cardPrint(deck[i]);
+                }   
+            }
+        
     }
     public static int getInput(int limit){
         Scanner sc = new Scanner(System.in);
-        boolean loop = true;
+        boolean loop = true; // this condition ends the loop
         int input = 0;
         while(loop){
             try{
@@ -69,6 +77,7 @@ public class main{
             Card a = deck[selection+i];
             deckSecondPart[i] = a;
         }
+        if(developermod){
         for(int i = 0;i<deckFirstPart.length;i++){
             System.out.print((i+1)+" -) ");
             cardPrint(deckFirstPart[i]);
@@ -77,8 +86,8 @@ public class main{
         for(int i = 0;i<deckSecondPart.length;i++){
             System.out.print((i+1)+" -) ");
             cardPrint(deckSecondPart[i]);
+        }    
         }
-        System.out.println();
         for(int i = 0;i<deckSecondPart.length;i++){
             deck[i] = deckSecondPart[i];
         }
@@ -99,12 +108,22 @@ public class main{
             computerHand[i] = deck[dealReminder];
         }
     }
-    public static void printHand(Card[] arr){
-        System.out.println("Your Cards: ");
-        for(int i = 0;i<4;i++){
+    public static void printHand(Card[] arr,int a){
+        if(a==0){
+         System.out.println("Your Cards: ");
+            for(int i = 0;i<4;i++){
             System.out.print((i+1)+" -) ");
             cardPrint(arr[i]);
+            }   
         }
+        else if(a==1){
+         System.out.println("Computer's Card: ");
+            for(int i = 0;i<4;i++){
+            System.out.print((i+1)+" -) ");
+            cardPrint(arr[i]);
+            }   
+        }
+        
     }
     public static void drawBoard(){
         if(start==true){
@@ -148,7 +167,7 @@ public class main{
     }
     public static void playerPlay(){
         Scanner sc = new Scanner(System.in);
-        printHand(playerHand);
+        printHand(playerHand,0);
         boolean end = true;
         int input = 0;
         while(end){
@@ -192,6 +211,7 @@ public class main{
         boolean playRandom = true;
         boolean end = true;
         int selection = 0;
+        if(developermod){printHand(computerHand,1);}
         for(int i = 0;i<4;i++){
             if(computerHand[i]!=null){
                if(boardReminder==1 && computerHand[i].pistiCheck(board[boardReminder])){
@@ -252,33 +272,32 @@ public class main{
             deck[index] = x;
         }
     }
-    public static void main(String[] args){
-        createDeck();
-        deckShuffle();
-        for(int i = 0;i<board.length;i++){
-            System.out.print((i+1)+" -) ");
-            cardPrint(deck[i]);
+    public static void scoreDraw(){
+        int cardScorePlayer = pointCount(playerCount);
+        playerScore += cardScorePlayer;
+        int cardScoreComputer = pointCount(computerCount);
+        computerScore += cardScoreComputer;
+        if(developermod){
+           for(int i = 0;i<computerCount.length;i++){
+                if(computerCount[i]!=null){
+                    cardPrint(playerCount[i]);
+                }
+            }    
         }
-        for(int i = 0;i<5;i++){
-            System.out.println();
-        }
-        cutDeck();
-        for(int i = 0;i<board.length;i++){
-            System.out.print((i+1)+" -) ");
-            cardPrint(deck[i]);
-        }
-        int x = pointCount(deck);
-        System.out.println(x);
+        System.out.println("Your score: "+playerScore);
         System.out.println();
-        System.out.println();
-        for(int i = 0;i<6;i++){
-            dealCards();
-            for(int j = 0;j<4;j++){
-                drawBoard();
-                playerPlay();
-                computerPlay();
-            }
+        if(developermod){
+           for(int i = 0;i<computerCount.length;i++){
+                if(computerCount[i]!=null){
+                    cardPrint(computerCount[i]);
+                }
+            }    
         }
+        System.out.println("Computer's score: "+computerScore);
+        System.out.println();
+        System.out.println("END");
+    }
+    public static void giveLastCards(){
         if(board[boardReminder]!=null){
             if(playerget==1){
                 emptyBoard(playerCount);
@@ -287,32 +306,34 @@ public class main{
                 emptyBoard(computerCount);
             }
         }
-        System.out.println("END");
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        for(int i = 0;i<playerCount.length;i++){
-            if(playerCount[i]!=null){
-                cardPrint(playerCount[i]);
+    }
+    public static void pisti(){
+        for(int i = 0;i<6;i++){
+            dealCards();
+            for(int j = 0;j<4;j++){
+                drawBoard();
+                playerPlay();
+                computerPlay();
             }
         }
-        int cardScorePlayer = pointCount(playerCount);
-        playerScore += cardScorePlayer;
-        System.out.println("Your score: "+playerScore);
-        System.out.println(); 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        int cardScoreComputer = pointCount(computerCount);
-        computerScore += cardScoreComputer;
-        for(int i = 0;i<computerCount.length;i++){
-            if(computerCount[i]!=null){
-                cardPrint(computerCount[i]);
-            }
+    }
+    public static void isDeveloper(){
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        if(input.equals("dev")){
+            developermod = true;
         }
-        System.out.println("Computer's score: "+computerScore);
+        else{
+            developermod = false;
+        }
+    }
+    public static void main(String[] args){
+        isDeveloper();
+        createDeck();
+        deckShuffle();
+        cutDeck();
+        pisti();
+        giveLastCards();
+        scoreDraw();
     }
 }
