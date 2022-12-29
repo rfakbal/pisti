@@ -12,15 +12,15 @@ public class Main{
     public static Card[]    board               = new Card[52];
     public static Card[]    playerCount         = new Card[52];
     public static Card[]    computerCount       = new Card[52];
-    public static boolean   developermod;
-    public static int       playerget;
+    public static String[]  ranks               = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+    public static String[]  suits               = {"Spades","Hearts","Diamonds","Clubs"};
     public static int       playerScore         = 0;
     public static int       computerScore       = 0;
     public static int       dealReminder        = 0;
     public static int       boardReminder       = 3;
+    public static boolean   developermod;
+    public static int       playerget;
     public static boolean   start               = true;
-    public static String[]  ranks               = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
-    public static String[]  suits               = {"maca","kupa","karo","sinek"};
     public static boolean   stop                = false;
     public static void      cardPrint(Card a){
     if(a==null){
@@ -330,10 +330,8 @@ public class Main{
         int point = 0;
         for(int i = 0;i<cards.length;i++){
             if(cards[i]==null){continue;}
-            else if(cards[i].getRank().equals("J")){point++;}
-            else if(cards[i].getRank().equals("A")){point++;}
-            else if(cards[i].getRank()=="K"&&cards[i].getSuit()=="karo"){point+=3;}
-            else if(cards[i].getRank()=="2"&&cards[i].getSuit()=="sinek"){point+=2;}
+            else if(cards[i].getRank()=="K"&&cards[i].getSuit()=="Diamonds"){point+=3;}
+            else if(cards[i].getRank()=="2"&&cards[i].getSuit()=="Clubs"){point+=2;}
             else{point++;}
         } 
         return point;
