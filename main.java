@@ -40,11 +40,11 @@ public class Main{
             }
             if(developerMode){
                 for(int i = 0;i<52;i++){
-                    System.out.print(i(+1)=+"-) ");
+                    System.out.print((i+1)+"-) ");
                     cardPrint(deck[i]);
                 }   
             }
-        
+            System.out.println("Deck Created ");
     }
     public static int       getInput(int limit){
         Scanner sc = new Scanner(System.in);
@@ -344,6 +344,7 @@ public class Main{
             deck[i] = y;
             deck[index] = x;
         }
+        System.out.println("Deck Shuffled ");
     }
     public static void      scoreDraw(){
         int cardScorePlayer = pointCount(playerCount);
@@ -363,9 +364,14 @@ public class Main{
             computerScore += 3;
         }
         if(developerMode){
-           for(int i = 0;i<computerCount.length;i++){
-                if(computerCount[i]!=null){
+           for(int i = 0;i<playerCount.length;i++){
+                if(playerCount[i]!=null){
                     cardPrint(playerCount[i]);
+                }
+            }
+            for(int i = 0;i<computerCount.length;i++){
+                if(computerCount[i]!=null){
+                    cardPrint(computerCount[i]);
                 }
             }    
         }
@@ -380,7 +386,16 @@ public class Main{
         }
         System.out.println("Computer's score: "+computerScore);
         System.out.println();
-        System.out.println("END");
+        if(computerScore>playerScore){
+            System.out.println("You Lost!");
+        }
+        else if(computerScore<playerScore){
+            System.out.println("You Win!");
+        }
+        else{
+            System.out.println("Draw!");
+        }
+        System.out.println("END OF THE GAME");
     }
     public static void      giveLastCards(){
         if(board[boardReminder]!=null){
