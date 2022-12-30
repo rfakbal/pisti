@@ -18,8 +18,8 @@ public class Main{
     public static int       computerScore       = 0;
     public static int       dealReminder        = 0;
     public static int       boardReminder       = 3;
-    public static boolean   developermod;
-    public static int       playerget;
+    public static boolean   developerMode;
+    public static int       playerGet;
     public static boolean   start               = true;
     public static boolean   stop                = false;
     public static void      cardPrint(Card a){
@@ -38,9 +38,9 @@ public class Main{
                 index++;
                 }
             }
-            if(developermod){
+            if(developerMode){
                 for(int i = 0;i<52;i++){
-                    System.out.print(i+"-) ");
+                    System.out.print(i(+1)=+"-) ");
                     cardPrint(deck[i]);
                 }   
             }
@@ -82,7 +82,7 @@ public class Main{
             Card a = deck[selection+i];
             deckSecondPart[i] = a;
         }
-        if(developermod){
+        if(developerMode){
         for(int i = 0;i<deckFirstPart.length;i++){
             System.out.print((i+1)+" -) ");
             cardPrint(deckFirstPart[i]);
@@ -131,7 +131,6 @@ public class Main{
             cardPrint(arr[i]);
             }   
         }
-        
     }
     public static void      drawBoard(){
         if(start==true){
@@ -265,7 +264,7 @@ public class Main{
             emptyBoard(playerCount);
             playerHand[input]=null;
             playerScore += 10;
-            playerget = 1;
+            playerGet = 1;
         }
         else if(playerHand[input].cardCheck(board[boardReminder])){
             System.out.println("You Played = "+" "+playerHand[input].getSuit()+" "+playerHand[input].getRank()+" And Got All The Cards On The Board");
@@ -273,7 +272,7 @@ public class Main{
             board[boardReminder] = playerHand[input];
             emptyBoard(playerCount);
             playerHand[input]=null;
-            playerget = 1;
+            playerGet = 1;
         }
         else{
             boardReminder++;
@@ -287,7 +286,7 @@ public class Main{
         boolean playRandom = true;
         boolean end = true;
         int selection = 0;
-        if(developermod){printHand(computerHand,1);}
+        if(developerMode){printHand(computerHand,1);}
         for(int i = 0;i<4;i++){
             if(computerHand[i]!=null){
                if(boardReminder==1 && computerHand[i].pistiCheck(board[boardReminder])){
@@ -297,7 +296,7 @@ public class Main{
                 emptyBoard(computerCount);
                 computerHand[i] = null;
                 computerScore += 10;
-                playerget = 0;
+                playerGet = 0;
                 playRandom = false;
                 }
             else if(computerHand[i].cardCheck(board[boardReminder])){
@@ -306,7 +305,7 @@ public class Main{
                 board[boardReminder] = computerHand[i];
                 emptyBoard(computerCount);
                 computerHand[i] = null;
-                playerget = 0;
+                playerGet = 0;
                 playRandom = false;
                 } 
             }   
@@ -363,7 +362,7 @@ public class Main{
         else if(cardNumPlayer<26){
             computerScore += 3;
         }
-        if(developermod){
+        if(developerMode){
            for(int i = 0;i<computerCount.length;i++){
                 if(computerCount[i]!=null){
                     cardPrint(playerCount[i]);
@@ -372,7 +371,7 @@ public class Main{
         }
         System.out.println("Your score: "+playerScore);
         System.out.println();
-        if(developermod){
+        if(developerMode){
            for(int i = 0;i<computerCount.length;i++){
                 if(computerCount[i]!=null){
                     cardPrint(computerCount[i]);
@@ -385,7 +384,7 @@ public class Main{
     }
     public static void      giveLastCards(){
         if(board[boardReminder]!=null){
-            if(playerget==1){
+            if(playerGet==1){
                 emptyBoard(playerCount);
             }
             else{
@@ -408,10 +407,10 @@ public class Main{
         System.out.println("Please press enter to start...");
         String input = sc.nextLine();
         if(input.equals("dev")){
-            developermod = true;
+            developerMode = true;
         }
         else{
-            developermod = false;
+            developerMode = false;
         }
     }
     public static void      main(String[] args){
