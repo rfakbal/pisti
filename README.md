@@ -1,6 +1,6 @@
 # pisti
 GAME: 
-
+Pişti is a card game played by 2 or 4 people. It is very common in Turkey and one of the easiest games to learn and play.
 A game card deck has four suits:
 ● Spades: ♠
 ● Clubs: ♣
